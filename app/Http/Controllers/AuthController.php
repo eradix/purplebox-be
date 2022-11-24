@@ -13,7 +13,7 @@ class AuthController extends Controller
     public function register(Request $request) {
         $validator = Validator::make($request->all(),[
             'first_name' => 'required|string|max:255',
-            'middle_name' => 'required|string|max:255',
+            'middle_name' => '',
             'last_name' => 'required|string|max:255',
             'address' => 'required|string|max:255',
             'role' => 'required|string',
@@ -22,7 +22,7 @@ class AuthController extends Controller
         ]);
 
         if($validator->fails()){
-            return response()->json($validator->errors());       
+            return response()->json($validator->errors(), 400);       
         }
 
         $user = User::create([
