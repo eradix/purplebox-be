@@ -26,3 +26,6 @@ Route::middleware('auth:sanctum')->post("/logout", "AuthController@logout");
 // User Management
 Route::resource("/users", "UserController");
 
+// Product Management
+Route::resource("/products", "ProductController");
+
