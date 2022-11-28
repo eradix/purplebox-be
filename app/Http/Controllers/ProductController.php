@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use Image;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -40,18 +41,44 @@ class ProductController extends Controller
     }
 
     
-    public function show($id)
+    public function show(Product $product)
     {
-        //
+        return response()->json([
+            "data" => $product,
+        ], 200);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, Product $product)
     {
-        //
+        if($request->hasFile("image")) {
+            Storage::disk()->delete($product->image);
+            $image = $request->image->store('cakes');
+            $img = Image::make(public_path('storage/' . $image))->fit(400, 500);
+            $img->save();
+            $product->image = $image;
+            $product->save();
+        }
+
+        $product->update([
+            "name" => $request->name,
+            "type" => $request->type,
+            "description" => $request->description,
+            "price" => $request->price,
+        ]);
+
+        return response()->json([
+            "message" => "Product has been updated.",
+            "data" => $product
+        ], 200);
     }
 
-    public function destroy($id)
+    public function destroy(Request $request, Product $product)
     {
-        //
+        Storage::disk()->delete($product->image);
+        $product->delete();
+
+        return response()->json([
+            "message" => "Product has been deleted.",
+        ], 200);
     }
 }
