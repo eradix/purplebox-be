@@ -20,6 +20,7 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
+        $image = "";
         if($request->hasFile('image')) {
             $image = $request->image->store('cakes');
             $img = Image::make(public_path('storage/' . $image))->fit(400, 500);
