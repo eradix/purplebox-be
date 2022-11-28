@@ -12,7 +12,7 @@ class ProductController extends Controller
     
     public function index(Request $request)
     {
-        if(!$request->type) {
+        if($request->type == "All") {
             $products = Product::orderByDesc("id")->get();
 
             return response()->json([
