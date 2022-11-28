@@ -10,12 +10,21 @@ use Illuminate\Support\Facades\Storage;
 class ProductController extends Controller
 {
     
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::orderByDesc("id")->get();
+        if(!$request->type) {
+            $products = Product::orderByDesc("id")->get();
+
+            return response()->json([
+                "data" => $products
+            ]);
+        }
+
+        $products = Product::orderByDesc("id")->where('type', $request->type)->get();
+
         return response()->json([
-        "data" => $products
-    ]);
+            "data" => $products
+        ]);
     }
 
     public function store(Request $request)
