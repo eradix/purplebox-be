@@ -17,6 +17,7 @@ class Order extends Model
         "quantity",
         "total_price",
         "status",
+        "message",
     ];
 
     public function user() {

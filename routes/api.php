@@ -29,3 +29,6 @@ Route::resource("/users", "UserController");
 // Product Management
 Route::resource("/products", "ProductController");
 
+// Order Management
+Route::resource("/orders", "OrderController");
+

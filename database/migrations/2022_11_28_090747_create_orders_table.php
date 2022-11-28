@@ -19,7 +19,8 @@ class CreateOrdersTable extends Migration
             $table->integer("product_id");
             $table->integer("quantity");
             $table->integer("total_price");
-            $table->integer("status");
+            $table->string("status");
+            $table->text("message")->nullable();
             $table->timestamps();
         });
     }
