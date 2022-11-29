@@ -21,6 +21,7 @@ class UserSeeder extends Seeder
             "last_name" => "Super",
             "address" => "Tanza, Cavite",
             "role" => "Admin",
+            "contact_num" => "09756348605",
             "email" => "admin@gmail.com",
             "password" => Hash::make("password"),
         ]);
