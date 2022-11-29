@@ -47,6 +47,16 @@ class OrderController extends Controller
         ]);
     }
 
+    public function delete($id) {
+        $order = Order::where('id', $id)->first();
+
+        $order->delete();
+
+        return response()->json([
+            'message' => 'Order has been deleted.',
+        ]);
+    }
+
     public function getTotalPrice($id, $qty) {
         $product = Product::where('id', $id)->first();
         $totalPrice = $product->price * $qty;
