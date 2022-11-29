@@ -60,6 +60,17 @@ class OrderController extends Controller
         ]);
     }
 
+    public function update(Request $request, $id) {
+        $order = Order::where('id', $id)->first();
+
+        $order->update($request->all());
+
+        return response()->json([
+            'message' => 'Order has been updated.',
+            'data' => $order
+        ]);
+    }
+
     public function getTotalPrice($id, $qty) {
         $product = Product::where('id', $id)->first();
         $totalPrice = $product->price * $qty;
