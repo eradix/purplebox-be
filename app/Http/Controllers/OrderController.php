@@ -41,9 +41,12 @@ class OrderController extends Controller
 
         $cart = $user->orders;
 
+        $totalOrder = $this->getTotalOrder($user->orders);
+
         return response()->json([
             "message" => "Fetch All Cart Success",
             "user" => $user,
+            "total" => $totalOrder,
         ]);
     }
 
@@ -61,6 +64,15 @@ class OrderController extends Controller
         $product = Product::where('id', $id)->first();
         $totalPrice = $product->price * $qty;
         return $totalPrice;
+    }
+
+    public function getTotalOrder($orders) {
+        $total = 0;
+        foreach($orders as $item) {
+            $total += $item->total_price;
+        }
+
+        return $total;
     }
 
 }
