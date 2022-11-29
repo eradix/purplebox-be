@@ -30,5 +30,8 @@ Route::resource("/users", "UserController");
 Route::resource("/products", "ProductController");
 
 // Order Management
-Route::resource("/orders", "OrderController");
+Route::middleware('auth:sanctum')->get("/orders", "OrderController@index");
+Route::middleware('auth:sanctum')->post("/orders", "OrderController@store");
+
+Route::middleware('auth:sanctum')->get("/orders/cart", "OrderController@getUserCart");
 
