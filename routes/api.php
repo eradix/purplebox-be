@@ -33,6 +33,7 @@ Route::resource("/products", "ProductController");
 Route::middleware('auth:sanctum')->get("/orders", "OrderController@index");
 Route::middleware('auth:sanctum')->post("/orders", "OrderController@store");
 Route::middleware('auth:sanctum')->put("/orders/{id}", "OrderController@update");
+Route::middleware('auth:sanctum')->put("/orders/cart/{id}", "OrderController@updateAddToCart");
 Route::middleware('auth:sanctum')->delete("/orders/{id}", "OrderController@delete");
 
 Route::middleware('auth:sanctum')->get("/orders/cart", "OrderController@getUserCart");

@@ -71,6 +71,22 @@ class OrderController extends Controller
         ]);
     }
 
+    public function updateAddToCart(Request $request, $id) {
+        $order = Order::where('id', $id)->with('product')->first();
+        $qty = $order->quantity + $request->quantity;
+        $totalPrice = $qty * $order->product->price;
+
+        $order->update([
+            'quantity' => $qty,
+            'total_price' => $totalPrice
+        ]);
+
+        return response()->json([
+            'message' => "Product Added to Cart",
+            'data' => $order
+        ]);
+    }
+
     public function getTotalPrice($id, $qty) {
         $product = Product::where('id', $id)->first();
         $totalPrice = $product->price * $qty;
