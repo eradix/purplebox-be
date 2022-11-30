@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\CustomCake;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Image;
 
 class CustomCakeController extends Controller
 {
