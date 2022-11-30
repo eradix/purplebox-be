@@ -44,7 +44,7 @@ class OrderController extends Controller
 
         return response()->json([
             "message" => "Fetch All Cart Success",
-            "data" => $userOrders,
+            "data" => !empty($userOrders['1']) ? array($userOrders['1']) : $userOrders,
             "total" => $totalOrder,
         ]);
     }
