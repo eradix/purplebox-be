@@ -9,8 +9,8 @@ use Image;
 
 class CustomCakeController extends Controller
 {
-    public function index() {
-        $data = CustomCake::orderByDesc('id')->get();
+    public function index(Request $request) {
+        $data = CustomCake::orderByDesc('id')->where('status', $request->status)->get();
 
         return response()->json([
             'data' => $data

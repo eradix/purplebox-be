@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 class OrderController extends Controller
 {
     public function index(Request $request) {
-        $orders = Order::with('user', 'product')->orderByDesc('id')->get();
+        $orders = Order::with('user', 'product')->where('status', $request->status)->orderByDesc('id')->get();
 
         return response()->json([
             "data" => $orders
