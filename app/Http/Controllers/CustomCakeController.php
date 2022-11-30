@@ -60,4 +60,12 @@ class CustomCakeController extends Controller
             'message' => "Custom cake has been deleted.",
         ]);
     }
+
+    public function getUsersCake() {
+        $data = Auth::user()->customCakes;
+
+        return response()->json([
+            'data' => $data
+        ]);
+    }
 }
