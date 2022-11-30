@@ -10,7 +10,11 @@ use Illuminate\Support\Facades\Auth;
 class OrderController extends Controller
 {
     public function index(Request $request) {
-        $orders = Order::with('user', 'product')->where('status', $request->status)->orderByDesc('id')->get();
+        if(isset($request->status)) {
+            $orders = Order::with('user', 'product')->where('status', $request->status)->orderByDesc('id')->get();
+        } else {
+            $orders = Order::with('user', 'product')->orderByDesc('id')->get();
+        }
 
         return response()->json([
             "data" => $orders
@@ -47,7 +51,11 @@ class OrderController extends Controller
     public function getUserCart(Request $request) {
         $user = Auth::user();
     
-        $userOrders = $user->orders->where('status', $request->status);
+        if(isset($request->status)) {
+            $userOrders = $user->orders->where('status', $request->status);
+        } else {
+            $userOrders = $user->orders;
+        }
         $totalOrder = $this->getTotalOrder($userOrders);
 
         return response()->json([
