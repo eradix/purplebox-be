@@ -36,6 +36,14 @@ class OrderController extends Controller
         ]);
     }
 
+    public function show($id) {
+        $data = Order::where('id', $id)->with('user', 'product')->first();
+
+        return response()->json([
+            'data' => $data
+        ]);
+    }
+
     public function getUserCart(Request $request) {
         $user = Auth::user();
     
