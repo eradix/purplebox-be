@@ -47,4 +47,8 @@ class User extends Authenticatable
     public function orders() {
         return $this->hasMany(Order::class)->orderByDesc('id')->with('product');
     }
+
+    public function customCakes() {
+        return $this->hasMany(CustomCake::class);
+    }
 }
