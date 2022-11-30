@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -49,19 +50,14 @@ class OrderController extends Controller
     }
 
     public function getUserCart(Request $request) {
-        $user = Auth::user();
-    
-        if(isset($request->status)) {
-            $userOrders = $user->orders->where('status', $request->status);
-        } else {
-            $userOrders = $user->orders;
-        }
-        $totalOrder = $this->getTotalOrder($userOrders);
+        $id = Auth::user()->id;
+        $status = $request->status;
+
+        $orders = Order::where('user_id', $id)->orderByDesc('id')->where('status', $status)->with('product')->get();
 
         return response()->json([
             "message" => "Fetch All Cart Success",
-            "data" => !empty($userOrders['1']) ? array($userOrders['1']) : $userOrders,
-            "total" => $totalOrder,
+            "data" => $orders,
         ]);
     }
 
