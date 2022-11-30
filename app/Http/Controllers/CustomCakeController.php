@@ -65,7 +65,7 @@ class CustomCakeController extends Controller
         $data = Auth::user()->customCakes->where('status', $request->status);
 
         return response()->json([
-            'message' => "Fectch Success",
+            'message' => "Fetch Success",
             'data' => isset($data['1']) ? array($data['1']) : $data
         ]);
     }
