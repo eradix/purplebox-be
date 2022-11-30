@@ -10,7 +10,7 @@ use Image;
 class CustomCakeController extends Controller
 {
     public function index(Request $request) {
-        $data = CustomCake::orderByDesc('id')->where('status', $request->status)->get();
+        $data = CustomCake::orderByDesc('id')->with('user')->where('status', $request->status)->get();
 
         return response()->json([
             'data' => $data
