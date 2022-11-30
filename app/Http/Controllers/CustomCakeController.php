@@ -31,6 +31,7 @@ class CustomCakeController extends Controller
             'message' => $request->message,
             'remarks' => $request->remarks,
             "image" => $image,
+            "status" => $request->status,
         ]);
 
         return response()->json([

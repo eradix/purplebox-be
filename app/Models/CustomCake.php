@@ -18,6 +18,7 @@ class CustomCake extends Model
         "remarks",
         "image",
         "price",
+        "status",
     ];
 
     public function user() {

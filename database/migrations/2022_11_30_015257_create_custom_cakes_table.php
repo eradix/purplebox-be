@@ -20,6 +20,7 @@ class CreateCustomCakesTable extends Migration
             $table->text('message')->nullable();
             $table->text('remarks')->nullable();
             $table->text('image')->nullable();
+            $table->string('status')->nullable();
             $table->text('price')->nullable();
             $table->timestamps();
         });
