@@ -61,8 +61,8 @@ class CustomCakeController extends Controller
         ]);
     }
 
-    public function getUsersCake() {
-        $data = Auth::user()->customCakes;
+    public function getUsersCake(Request $request) {
+        $data = Auth::user()->customCakes->where('status', $request->status);
 
         return response()->json([
             'data' => $data

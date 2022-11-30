@@ -36,14 +36,15 @@ class OrderController extends Controller
         ]);
     }
 
-    public function getUserCart() {
+    public function getUserCart(Request $request) {
         $user = Auth::user();
     
-        $totalOrder = $this->getTotalOrder($user->orders);
+        $userOrders = $user->orders->where('status', $request->status);
+        $totalOrder = $this->getTotalOrder($userOrders);
 
         return response()->json([
             "message" => "Fetch All Cart Success",
-            "user" => $user,
+            "data" => $userOrders,
             "total" => $totalOrder,
         ]);
     }
