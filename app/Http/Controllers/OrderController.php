@@ -58,6 +58,7 @@ class OrderController extends Controller
         return response()->json([
             "message" => "Fetch All Cart Success",
             "data" => $orders,
+            "status" => $status
         ]);
     }
 
@@ -114,16 +115,18 @@ class OrderController extends Controller
     }
 
     public function getTotalOfAllItems() {
-        $user = Auth::user();
+        $id = Auth::user()->id;
         $total = 0;
 
-        foreach($user->orders as $item) {
+        $orders = Order::where('user_id', $id)->where('status', "To-Pay")->with('product')->get();
+
+        foreach($orders as $item) {
             $total += $item->total_price;
         }
 
-        foreach($user->customCakes as $item) {
-            $total += $item->price * $item->quantity;
-        }
+        // foreach($user->customCakes as $item) {
+        //     $total += $item->price * $item->quantity;
+        // }
 
         return response()->json([
             'message' => "Total Price of all items in the cart",
