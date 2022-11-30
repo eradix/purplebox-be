@@ -38,9 +38,7 @@ class OrderController extends Controller
 
     public function getUserCart() {
         $user = Auth::user();
-
-        $cart = $user->orders;
-
+    
         $totalOrder = $this->getTotalOrder($user->orders);
 
         return response()->json([
@@ -102,4 +100,21 @@ class OrderController extends Controller
         return $total;
     }
 
+    public function getTotalOfAllItems() {
+        $user = Auth::user();
+        $total = 0;
+
+        foreach($user->orders as $item) {
+            $total += $item->total_price;
+        }
+
+        foreach($user->customCakes as $item) {
+            $total += $item->price * $item->quantity;
+        }
+
+        return response()->json([
+            'message' => "Total Price of all items in the cart",
+            'totalPrice' => $total,
+        ]);
+    }
 }
