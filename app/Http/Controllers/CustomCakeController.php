@@ -40,6 +40,15 @@ class CustomCakeController extends Controller
         ]);
     }
 
+    public function show($id) {
+        $data = CustomCake::where('id', $id)->first();
+
+        return response()->json([
+            'data' => $data
+        ]);
+    }
+
+
     public function update(Request $request, $id) {
         $data = CustomCake::where('id', $id)->first();
 
