@@ -69,7 +69,8 @@ class CustomCakeController extends Controller
 
         return response()->json([
             'message' => "Fetch Success",
-            'data' => $data
+            'data' => $data,
+            'status' => $status
         ]);
     }
 }
