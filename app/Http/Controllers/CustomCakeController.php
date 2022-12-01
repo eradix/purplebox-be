@@ -62,11 +62,14 @@ class CustomCakeController extends Controller
     }
 
     public function getUsersCake(Request $request) {
-        $data = Auth::user()->customCakes->where('status', $request->status);
+        $id = Auth::user()->id;
+        $status = $request->status;
+
+        $data = CustomCake::where('user_id', $id)->orderByDesc('id')->where('status', $status)->get();
 
         return response()->json([
             'message' => "Fetch Success",
-            'data' => isset($data['1']) ? array($data['1']) : $data
+            'data' => $data
         ]);
     }
 }
