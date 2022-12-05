@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CustomCake;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
@@ -124,9 +125,11 @@ class OrderController extends Controller
             $total += $item->total_price;
         }
 
-        // foreach($user->customCakes as $item) {
-        //     $total += $item->price * $item->quantity;
-        // }
+        $customCakes = CustomCake::where('user_id', $id)->where('status', "To-Pay")->get();
+
+        foreach($customCakes as $item) {
+            $total += $item->price * $item->quantity;
+        }
 
         return response()->json([
             'message' => "Total Price of all items in the cart",
