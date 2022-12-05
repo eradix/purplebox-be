@@ -41,7 +41,7 @@ class CustomCakeController extends Controller
     }
 
     public function show($id) {
-        $data = CustomCake::where('id', $id)->first();
+        $data = CustomCake::where('id', $id)->with('user')->first();
 
         return response()->json([
             'data' => $data
