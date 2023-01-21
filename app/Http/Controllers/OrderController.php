@@ -136,4 +136,20 @@ class OrderController extends Controller
             'totalPrice' => $total,
         ]);
     }
+
+    public function getQtyEachOrder(Request $request) {
+        $toPay = Order::where('status', "To-Pay")->count();
+        $processing = Order::where('status', "Processing")->count();
+        $delivery = Order::where('status', "Delivery")->count();
+        $completed = Order::where('status', "Completed")->count();
+
+        return response()->json([
+            'data' => [
+                'topay' => $toPay,
+                'processing' => $processing,
+                'delivery' => $delivery,
+                'completed' => $completed,
+            ]
+        ]);
+    }
 }
