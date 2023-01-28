@@ -119,13 +119,13 @@ class OrderController extends Controller
         $id = Auth::user()->id;
         $total = 0;
 
-        $orders = Order::where('user_id', $id)->where('status', "To-Pay")->with('product')->get();
+        $orders = Order::where('user_id', $id)->where('status', "Paid")->with('product')->get();
 
         foreach($orders as $item) {
             $total += $item->total_price;
         }
 
-        $customCakes = CustomCake::where('user_id', $id)->where('status', "To-Pay")->get();
+        $customCakes = CustomCake::where('user_id', $id)->where('status', "Paid")->get();
 
         foreach($customCakes as $item) {
             $total += $item->price * $item->quantity;
@@ -138,7 +138,7 @@ class OrderController extends Controller
     }
 
     public function getQtyEachOrder(Request $request) {
-        $toPay = Order::where('status', "To-Pay")->count();
+        $toPay = Order::where('status', "Paid")->count();
         $processing = Order::where('status', "Processing")->count();
         $delivery = Order::where('status', "Delivery")->count();
         $completed = Order::where('status', "Completed")->count();
