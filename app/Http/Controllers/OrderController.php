@@ -140,7 +140,7 @@ class OrderController extends Controller
     public function getQtyEachOrder(Request $request) {
         $toPay = Order::where('status', "Paid")->count();
         $processing = Order::where('status', "Processing")->count();
-        $delivery = Order::where('status', "Delivery")->count();
+        $delivery = Order::where('status', "Ready-For-Delivery")->count();
         $completed = Order::where('status', "Completed")->count();
 
         return response()->json([
