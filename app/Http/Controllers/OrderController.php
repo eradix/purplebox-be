@@ -115,17 +115,17 @@ class OrderController extends Controller
         return $total;
     }
 
-    public function getTotalOfAllItems() {
+    public function getTotalOfAllItems(Request $request) {
         $id = Auth::user()->id;
         $total = 0;
 
-        $orders = Order::where('user_id', $id)->where('status', "Paid")->with('product')->get();
+        $orders = Order::where('user_id', $id)->where('status', $request->status)->with('product')->get();
 
         foreach($orders as $item) {
             $total += $item->total_price;
         }
 
-        $customCakes = CustomCake::where('user_id', $id)->where('status', "Paid")->get();
+        $customCakes = CustomCake::where('user_id', $id)->where('status', $request->status)->get();
 
         foreach($customCakes as $item) {
             $total += $item->price * $item->quantity;
