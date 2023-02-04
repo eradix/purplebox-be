@@ -39,6 +39,7 @@ Route::middleware('auth:sanctum')->delete("/orders/{id}", "OrderController@delet
 Route::middleware('auth:sanctum')->get("/orders/cart", "OrderController@getUserCart");
 Route::middleware('auth:sanctum')->get("/orders/get-total-price", "OrderController@getTotalOfAllItems");
 Route::middleware('auth:sanctum')->get("/orders/quantity", "OrderController@getQtyEachOrder");
+Route::middleware('auth:sanctum')->get("/user/orders/quantity", "OrderController@getQtyEachUserOrder");
 
 //Customize Cakes
 Route::middleware('auth:sanctum')->get("/custom-cakes", "CustomCakeController@index");

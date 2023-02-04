@@ -15,11 +15,15 @@ class Order extends Model
         "user_id",
         "product_id",
         "quantity",
+        "unit_price",
         "total_price",
         "status",
         "delivery_address",
         "delivery_date",
         "message",
+        "type",
+        "image",
+        "remarks",
     ];
 
     public function user() {
