@@ -9,6 +9,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Image;
+use Notification;
+use App\Notifications\EmailNotification;
 
 class OrderController extends Controller
 {
@@ -49,6 +51,8 @@ class OrderController extends Controller
             "type" => $request->type,
             "image" => $image,
             "remarks" => $request->remarks,
+            "delivery_date" => $request->delivery_date,
+            "delivery_address" => $request->delivery_address,
         ]);
 
         return response()->json([
@@ -91,7 +95,7 @@ class OrderController extends Controller
     public function update(Request $request, $id) {
         $order = Order::where('id', $id)->first();
 
-        if($order->status === "onCart" && $order->total_price === 0) {
+        if($order->status == "onCart" && $order->total_price == 0) {
             $order->update([
                 "unit_price" => $request->unit_price,
                 "total_price" => $request->unit_price * $order->quantity
@@ -100,6 +104,8 @@ class OrderController extends Controller
         else { 
             $order->update($request->all());
         } 
+
+        $this->sendMail($order, $request->status);
 
         return response()->json([
             'message' => 'Order has been updated.',
@@ -194,5 +200,23 @@ class OrderController extends Controller
             "deliver" => $deliver,
             "completed" => $completed,
         ]);
+    }
+
+    public function sendMail($order, $status) {
+        $user = User::where("id", $order->user_id)->first();
+
+        $details = [
+            'greeting' => 'Hi ' . $user['first_name'],
+            'details' => 'Heres the updated details of your order: ' ,
+            'order' => "Order ID: " . $order->id,
+            'date' => "Delivery Date: " . $order->delivery_date,
+            'address' => "Delivery Address: " . $order->delivery_address,
+            'status' => "Status: " . $order->status,
+            'thanks' => 'Thank you for your patience',
+            'actionText' => 'Website',
+            'actionURL' => url('https://purplebox.com'),
+        ];
+  
+        Notification::send($user, new EmailNotification($details));
     }
 }
