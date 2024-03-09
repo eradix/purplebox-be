@@ -47,7 +47,7 @@ class AuthController extends Controller
     }
 
     public function login(Request $request) {
-        if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){ 
+        if(Auth::attempt($request->only(['email', 'password']))){ 
             $user = Auth::user(); 
             $token =  $user->createToken('token')->plainTextToken; 
             return response()->json([
@@ -58,7 +58,7 @@ class AuthController extends Controller
             ], 200); 
         } 
         else{ 
-            return response()->json(['message'=>'Invalid Credentials'], 401); 
+            return response()->json(['message'=>'Invalid Credentials', 'data'=> User::all()], 401); 
         } 
     }
 

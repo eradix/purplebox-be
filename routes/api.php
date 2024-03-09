@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,7 +22,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 // Authentication
 Route::post("/register", "AuthController@register");
-Route::post("/login", "AuthController@login");
+Route::post("/login", [AuthController::class, 'login']);
 Route::middleware('auth:sanctum')->post("/logout", "AuthController@logout");
 
 // User Management
@@ -28,6 +30,10 @@ Route::resource("/users", "UserController");
 
 // Product Management
 Route::resource("/products", "ProductController");
+
+Route::middleware('guest')->group(function () {
+    Route::get("/search/products", [ProductController::class, 'searchProduct']);
+});
 
 // Order Management
 Route::middleware('auth:sanctum')->get("/orders", "OrderController@index");

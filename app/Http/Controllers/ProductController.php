@@ -31,9 +31,11 @@ class ProductController extends Controller
     {
         $image = "";
         if($request->hasFile('image')) {
-            $image = $request->image->store('cakes');
-            $img = Image::make(public_path('storage/' . $image))->fit(400, 500);
-            $img->save();
+            // $image = $request->image->store('cakes');
+            // $img = Image::make(public_path('storage/' . $image))->fit(400, 500);
+            // $img->save();
+            $image = $request->file('image')->store('cakes', 'public');
+
         }
 
         $product = Product::create([
@@ -62,11 +64,12 @@ class ProductController extends Controller
     {
         if($request->hasFile("image")) {
             Storage::disk()->delete($product->image);
-            $image = $request->image->store('cakes');
-            $img = Image::make(public_path('storage/' . $image))->fit(400, 500);
-            $img->save();
-            $product->image = $image;
-            $product->save();
+            // $image = $request->image->store('cakes');
+            // $img = Image::make(public_path('storage/' . $image))->fit(400, 500);
+            // $img->save();
+            $image = $request->file('image')->store('cakes', 'public');
+            // $product->image = $image;
+            // $product->save();
         }
 
         $product->update([
@@ -74,6 +77,7 @@ class ProductController extends Controller
             "type" => $request->type,
             "description" => $request->description,
             "price" => $request->price,
+            "image" => $image
         ]);
 
         return response()->json([
@@ -90,5 +94,26 @@ class ProductController extends Controller
         return response()->json([
             "message" => "Product has been deleted.",
         ], 200);
+    }
+
+    public function searchProduct(Request $request){
+        $query = $request->input('query');
+        $type = $request->input('type');
+
+        $product_query = Product::query();
+
+        if ($query) {
+            $product_query->where('name', 'like', '%' . $query . '%');
+        }
+
+        if ($type) {
+            $product_query->where('type', $type);
+        }
+
+        $products = $product_query->orderBy('name')->get();
+
+        return response()->json([
+            "data" => $products
+        ]);
     }
 }
