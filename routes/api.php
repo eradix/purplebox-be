@@ -31,9 +31,10 @@ Route::resource("/users", "UserController");
 // Product Management
 Route::resource("/products", "ProductController");
 
-Route::middleware('guest')->group(function () {
-    Route::get("/search/products", [ProductController::class, 'searchProduct']);
-});
+//additionals
+Route::get('/product-best-seller', [ProductController::class, 'getBestSeller']);
+Route::get("/search/products", [ProductController::class, 'searchProduct']);
+
 
 // Order Management
 Route::middleware('auth:sanctum')->get("/orders", "OrderController@index");

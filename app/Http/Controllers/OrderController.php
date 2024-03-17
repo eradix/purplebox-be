@@ -23,6 +23,11 @@ class OrderController extends Controller
             $orders = Order::with('user', 'product')->orderByDesc('id')->get();
         }
 
+        //get all orders
+        if($request->status == 'all'){
+            $orders = Order::with('user', 'product')->orderByDesc('id')->get();
+        }
+
         return response()->json([
             "data" => $orders
         ]);

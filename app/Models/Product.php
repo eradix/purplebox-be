@@ -17,6 +17,7 @@ class Product extends Model
         "image",
         "description",
         "price",
+        "is_best_seller"
     ];
 
     public function orders() {

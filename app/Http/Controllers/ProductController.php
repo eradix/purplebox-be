@@ -38,12 +38,15 @@ class ProductController extends Controller
 
         }
 
+        $isBestSeller = (int)$request->is_best_seller;
+
         $product = Product::create([
             "name" => $request->name,
             "type" => $request->type,
             "image" => $image,
             "description" => $request->description,
             "price" => $request->price,
+            "is_best_seller" => $isBestSeller,
         ]);
 
         return response()->json([
@@ -114,6 +117,14 @@ class ProductController extends Controller
 
         return response()->json([
             "data" => $products
+        ]);
+    }
+
+    public function getBestSeller(){
+        $bestSeller = Product::where('is_best_seller', 1)->get();
+        
+        return response()->json([
+            "data" => $bestSeller
         ]);
     }
 }
